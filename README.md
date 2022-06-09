@@ -6,18 +6,17 @@ Arsitektur Jaringan Terkini
 
 - Ketentuan :
   - Name and tags : Tugas Akhir
-    - ![](ss/1.png)
+    - ![](1.png)
   - OS Images : Ubuntu Server 22.04 LTS 64 bit
-    - ![](ss/2.png)
+    - ![](2.png)
   - Instance type : t2.medium
-    - ![](ss/3.png)
+    - ![](3.png)
   - Key pair : vockey
-    - ![](ss/ok.png)
+    - ![](4.png)
   - Edit Network settings : allow SSH, allow HTTP, allow HTTPS, allow TCP port 8080, allow TCP port 8081
-    - ![](ss/5.png)
-    - ![](ss/6.png)
+    - ![](5.png)
   - Configure storage : 30 GB, gp3
-    - ![](ss/7.png)
+    - ![](6.png)
 
 ### 1. Langkah Pertama Lakukan Update
 

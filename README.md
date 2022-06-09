@@ -4,31 +4,31 @@ Arsitektur Jaringan Terkini
 
 ## A. Membuat EC2 Instance di AWS Academy
 
+1. New Instance
+
 - Ketentuan :
   - Name and tags : Tugas Akhir
-    - ![](Screenshots/1.png)
+    - ![](Screenshots/1.PNG)
   - OS Images : Ubuntu Server 22.04 LTS 64 bit
-    - ![](Screenshots/2.png)
+    - ![](Screenshots/2.PNG)
   - Instance type : t2.medium
-    - ![](Screenshots/3.png)
+    - ![](Screenshots/3.PNG)
   - Key pair : vockey
-    - ![](Screenshots/4.png)
+    - ![](Screenshots/4.PNG)
   - Edit Network settings : allow SSH, allow HTTP, allow HTTPS, allow TCP port 8080, allow TCP port 8081
-    - ![](Screenshots/5.png)
+    - ![](Screenshots/5.PNG)
   - Configure storage : 30 GB, gp3
-    - ![](Screenshots/6.png)
+    - ![](Screenshots/6.PNG)
 
-### 1. Langkah Pertama Lakukan Update
+### 1. Update
 
-- Lakukan update dan upgrade dengan perintah :
+- Update dan upgrade menggunakan perintah :
 
 ```
 sudo apt -yy update && sudo apt -yy upgrade
 ```
 
-### 2. Instalasi Mininet + OpenFlow
-
-Mininet adalah sebuah emulator jaringan yang dapat digunakan untuk membuat sebuah jaringan virtual (dapat terdiri atas host, switch, router, controller, dan link). host pada mininet menjalankan software Linux standar dan switch pada mininet mendukung protokol OpenFlow yang sangat fleksibel untuk dimodifikasi dan mendukung Software-Defined Networking (SDN).
+### 2. Install Mininet dan OpenFlow
 
 - Unduh repositori Mininet
 
@@ -42,7 +42,7 @@ git clone https://github.com/mininet/mininet
 mininet/util/install.sh -nfv
 ```
 
-### 3. Instalasi RYU
+### 3. Install RYU
 
 Ryu adalah sebuah framework software untuk SDN Controller dan pengembangan aplikasi SDN dan menyediakan beragam komponen software lengkap dengan API yang memudahkan pengembang melakukan pembuatan aplikasi berbasis controller SDN.
 
@@ -59,8 +59,6 @@ Setelah instal Flowmanager, lakukan rebooting Linux untuk membuat lingkungan ope
 ### 4. Percobaan Sederhana
 
 - Interaksi dengan Host dan Switch
-  - ![](ss/9.png)
-  - ![](ss/a.png)
 
 ```
 sudo mn
@@ -127,13 +125,13 @@ rtt min/avg/max/mdev = 0.065/0.166/0.267/0.101 ms
 mininet>
 ```
 
-## B. Membuat Custom Topology Mininet
+## B. Custom Topology Mininet
 
 Pada bagian ini kita akan membuat custom topologi dengan menggunakan mininet
 
-### 1. Masuk pada direktori Mininet dan Custom
+### 1. Masuk ke direktori Mininet dan Custom
 
-- Gunakan perintah dibawah untuk masuk ke direktori mininet
+- Gunakan perintah:
 
 ```
 cd mininet/custom
@@ -204,7 +202,7 @@ mininet> sh ovs-ofctl add-flow s2 -O OpenFlow13 "in_port=2,action=output:1"
 mininet> h1 ping -c2 h2
 ```
 
-- ![](ss/b.png)
+
 
 ### 3. Membuat Custom Topologi 3 switch dan 6 host
 
@@ -271,13 +269,11 @@ topos = { 'mytopo': ( lambda: MyTopo() ) }
 sudo mn --controller=none --custom custom_topo_3sw6h.py --topo mytopo --mac --arp
 ```
 
-- ![](ss/c.png)
 
-## C. Membuat Server Load Balanceing
 
-Load Balancing adalah suatu jaringan komputer yang menggunakan metode untuk mendistribusikan beban kerjaan pada dua atau bahkan lebih suatu koneksi jaringan secara seimbang agar pekerjaan dapat berjalan optimal dan tidak overload (kelebihan) beban pada salah satu jalur koneksi.
+## C. Membuat Server Load Balancing
 
-- lakukan cloneing dengan perintah dibawah, setelah berhasil cloneing anda akan mendapat 2 buah direktori yang pertama direktori LoadBalancing dan yang kedua adalah SPF dimana kita saat ini akan menggunakan direktori LB (LoadBalancer)
+- Clone Github dengan perintah dibawah, setelah berhasil cloneing anda akan mendapat 2 buah direktori yang pertama direktori LoadBalancing dan yang kedua adalah SPF dimana kita saat ini akan menggunakan direktori LB (LoadBalancer)
 
 ```
 git clone https://github.com/abazh/learn_sdn
@@ -308,7 +304,7 @@ ryu-manager rr_lb.py
 ```
 
 - Jika sudah berjalan tampilannya akan menjadi seperti berikut
-- ![](ss/12.png)
+
 - Pada terminal 1, h1 menjadi web client, sedangkan h2, h3, h4 harus menjalankan server dengan perintah
 
 ```
@@ -317,7 +313,7 @@ mininet> h3 python3 -m http.server 80 &
 mininet> h4 python3 -m http.server 80 &
 ```
 
-- ![](ss/13.png)
+
 - Lalu tulis perintah dibawah untuk menunjukkan flow
   dengan isi yang diteruskan ke controller
 
@@ -332,7 +328,7 @@ h1 curl 10.0.0.100
 ```
 
 - Pada terminal 1 dilakukan percobaan dengan perintah "h1 curl 10.0.0.100" seperti di atas, dengan hasil pada terminal 2 menunjukan bahwa perintah pertama server yang dipilih adalah server 10.0.0.2, lalu pada perintah yang kedua yang terpilih server 10.0.0.3, kemudian pada perintah ketiga server 10.0.0.4 yang terpilih
-- ![](ss/16.png)
+
 - Kemudian ketik perintah di bawah pada terminal 1 untuk melihat flows, setelah muncul dapat dilihat ada beberapa flows yang berjalan mengirimkan paket dengan output pada eth1, eth2, eth3, eth 4.
 
 ```
@@ -341,9 +337,9 @@ dpctl dump-flows –o openflow13
 
 - Sederhananya h1 seperti selalu terhubung dengan 10.0.0.100, karena setiap paket yang
   dikirim dilakukan translasi
-- ![](ss/17.png)
 
-## D. Membuat Aplikasi Ryu Shortest Path Routing
+
+## D. Ryu Shortest Path Routing Application
 
 - Dalam perutean jalur terpendek, jaringan komunikasi topologi didefinisikan menggunakan grafik berbobot berarah. Node dalam grafik mendefinisikan komponen switching dan busur berarah dalam grafik mendefinisikan koneksi komunikasi antara komponen switching. Setiap busur memiliki bobot yang menentukan biaya berbagi paket antara dua node dalam arah tertentu.
 - Pertama jika anda sudah mengikuti percobaan-percobaan diatas anda kemungkinan sudah memiliki direktori "learn_sdn/SPF", jika belum lakukan cloneing
@@ -358,29 +354,29 @@ git clone https://github.com/abazh/learn_sdn
 cd learn_sdn/SPF
 ```
 
-- Kemudian jalankan "tmux" agar dapat membuat 2 terminal console, untuk membuka terminal baru disebelah tekan (ctrl+b %), untuk berpindah terminal tekan (ctrl+b ;)
+- Jalankan "tmux" agar dapat membuat 2 terminal console, untuk membuka terminal baru disebelah tekan (ctrl+b %), untuk berpindah terminal tekan (ctrl+b ;)
 
 ```
 tmux
 ```
 
-- Pada Terminal Console 1 jalankan
+- Pada Terminal Console 1 
 
 ```
 ryu-manager --observe-links dijkstra_Ryu_controller.py
 ```
 
-- Pada Terminal Console 2 jalankan “
+- Pada Terminal Console 2  “
 
 ```
 sudo python3 topo-spf_lab.py
 ```
 
-- Pada terminal 1 memantau semua proses yang berjalan, pada terminal 2, 6 switch yang dibuat telah dideteksi dan di terminal 1 terlihat bahwa switch
+- Terminal 1 akan memantau semua proses yang berjalan, pada terminal 2, 6 switch yang dibuat telah dideteksi dan di terminal 1 terlihat bahwa switch
   telah terhubung ke controller namun belum ada aktivitas apapun namun switch ini terhubung
   dengan controller
-- ![](ss/18.png)
-- Lanjutkan dengan cek semua konektivitas dengan perintah
+
+- Cek semua konektivitas dengan perintah
 
 ```
 h1 ping -c 4 h4
@@ -388,15 +384,10 @@ h5 ping -c 4 h6
 ```
 
 - Pada terminal 2 terlihat PING mendapatkana replay, yang artinya h1 dan h4, h5 dan h6 saling terhubung.
-- ![](ss/19.png)
-- lakukan "pingall" pada terminal 2
+- "pingall" pada terminal 2
 
 ```
 pingall
 ```
 
-- Pada terminal 1 akan terjadi suatu proses yang berjalan, dan pada terminal 2 masing masing host tidak bisa langsung bertemu karena pertama kali masih menjalankan komputasi, maka ulangi perintah "pingall" beberapa kali hingga semua host terhubung, saat sudah terhubung hasilnya seperti dibawah, yang artinya semua flow sudah tertanam pada setiap switch sesuai topologi dan jumlah switch, host.
-- ![](ss/20.png)
-- ![](ss/21.1.png)
-
-# Terimakasih telah membaca, mohon maaf apabila ada banyak kekurangan, Semoga Ilmu ini Dapat bermanfaat.
+- Akan berjalan suatu proses pada terminal 1, dan pada terminal 2 masing masing host tidak bisa langsung bertemu karena pertama kali masih menjalankan komputasi, maka ulangi perintah "pingall" beberapa kali hingga semua host terhubung, saat sudah terhubung hasilnya seperti dibawah, yang artinya semua flow sudah tertanam pada setiap switch sesuai topologi dan jumlah switch, host.
